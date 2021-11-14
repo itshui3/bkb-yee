@@ -13,9 +13,20 @@ import {
     cardsInit,
     CardInterface
 } from './cardsData';
+import { RenderCardItem } from './RenderCardItem';
 
 interface CardContainerProps {}
 export const CardContainer = (props: CardContainerProps) => {
     const [cards, setCards] = useState<CardInterface[]>(cardsInit);
-    return (<View />);
+    const cardsTwoRow = cards;
+    return (
+        <View style={styles.cardContainer}>
+            <FlatList
+                data={cardsTwoRow}
+                keyExtractor={(cardItem: CardInterface, idx: number) => cardItem.id.toString()}
+                renderItem={RenderCardItem}
+                horizontal
+            />
+        </View>
+    );
 }
