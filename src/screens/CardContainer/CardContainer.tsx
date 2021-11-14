@@ -22,7 +22,6 @@ export const CardContainer = (props: CardContainerProps) => {
     const [activeFlippuh, setActiveFlippuh] = useState(0);
 
     const handleFlippuh = (item: CardInterface) => {
-        console.log('item received in handleFlippuh: ;', item);
         if (!activeFlippuh) {
             setCards(cards => {
                 return cards.map(c => {
@@ -65,15 +64,27 @@ export const CardContainer = (props: CardContainerProps) => {
             setActiveFlippuh(0);
         }
     }
-    const cardsTwoRow = cards;
+    const cardsTwoRow = stackCards(cards);
     return (
         <View style={styles.cardContainer}>
             <FlatList
                 data={cardsTwoRow}
-                keyExtractor={(cardItem: CardInterface, idx: number) => cardItem.id.toString()}
+                keyExtractor={(cardItem: CardInterface[], idx: number) => cardItem[0].id.toString()}
                 renderItem={RenderCardItemGenerator(flippedNums, handleFlippuh)}
                 horizontal
             />
         </View>
     );
+}
+
+function stackCards(cards: CardInterface[]): CardInterface[][] {
+
+    return cards.reduce((acc, currentCard, idx) => {
+        if (idx % 2 === 0) {
+            acc.push([currentCard]);
+        } else {
+            acc[acc.length-1].push(currentCard);
+        }
+        return acc;
+    }, [] as CardInterface[][]);
 }
