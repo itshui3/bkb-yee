@@ -2,7 +2,7 @@
 import React from 'react';
 import {
     ListRenderItem,
-    View
+    TouchableOpacity
 } from 'react-native';
 // app deps
 import { Card } from '../../components/Card/Card';
@@ -11,12 +11,19 @@ import {
     CardInterface
 } from './cardsData';
 
-export const RenderCardItem: ListRenderItem<CardInterface> = ({ item }) => {
+export const RenderCardItemGenerator = (
+    flippedNums: Set<number>,
+    handleFlippuh: (item: CardInterface) => void
+): ListRenderItem<CardInterface>  => ({ item }) => {
 
     return (
-        <Card
-            flipped={item.flippuh}
-            number={item.number}
-        />
+        <TouchableOpacity
+            onPress={() => handleFlippuh(item)}
+        >
+            <Card
+                flipped={item.flippuh}
+                number={item.number}
+            />
+        </TouchableOpacity>
     )
 }
